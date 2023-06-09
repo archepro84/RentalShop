@@ -42,9 +42,7 @@
                     @click="save"
                     v-else
             >
-                Rental
-                Cancel
-                Return
+                Save
             </v-btn>
             <v-btn
                     color="deep-purple lighten-2"
@@ -65,6 +63,48 @@
         </v-card-actions>
         <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn
+                    v-if="!editMode"
+                    color="deep-purple lighten-2"
+                    text
+                    @click="openRental"
+            >
+                Rental
+            </v-btn>
+            <v-dialog v-model="rentalDiagram" width="500">
+                <RentalCommand
+                        @closeDialog="closeRental"
+                        @rental="rental"
+                ></RentalCommand>
+            </v-dialog>
+            <v-btn
+                    v-if="!editMode"
+                    color="deep-purple lighten-2"
+                    text
+                    @click="openCancel"
+            >
+                Cancel
+            </v-btn>
+            <v-dialog v-model="cancelDiagram" width="500">
+                <CancelCommand
+                        @closeDialog="closeCancel"
+                        @cancel="cancel"
+                ></CancelCommand>
+            </v-dialog>
+            <v-btn
+                    v-if="!editMode"
+                    color="deep-purple lighten-2"
+                    text
+                    @click="openDropoff"
+            >
+                Dropoff
+            </v-btn>
+            <v-dialog v-model="dropoffDiagram" width="500">
+                <DropoffCommand
+                        @closeDialog="closeDropoff"
+                        @dropoff="dropoff"
+                ></DropoffCommand>
+            </v-dialog>
         </v-card-actions>
 
         <v-snackbar
@@ -102,6 +142,9 @@
                 timeout: 5000,
                 text: ''
             },
+            rentalDiagram: false,
+            cancelDiagram: false,
+            dropoffDiagram: false,
         }),
         computed:{
         },
@@ -195,6 +238,79 @@
             },
             change(){
                 this.$emit('input', this.value);
+            },
+            async rental() {
+                try {
+                    if(!this.offline){
+                        var temp = await axios.post(axios.fixUrl(this.value._links[''].href))
+                        for(var k in temp.data) this.value[k]=temp.data[k];
+                    }
+
+                    this.editMode = false;
+                    
+                    this.$emit('input', this.value);
+                    this.$emit('delete', this.value);
+                
+                } catch(e) {
+                    this.snackbar.status = true
+                    if(e.response && e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
+                }
+            },
+            async cancel(params) {
+                try {
+                    if(!this.offline) {
+                        var temp = await axios.put(axios.fixUrl(this.value._links['cancel'].href), params)
+                        for(var k in temp.data) {
+                            this.value[k]=temp.data[k];
+                        }
+                    }
+
+                    this.editMode = false;
+                    this.closeCancel();
+                } catch(e) {
+                    this.snackbar.status = true
+                    if(e.response && e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
+                }
+            },
+            openCancel() {
+                this.cancelDiagram = true;
+            },
+            closeCancel() {
+                this.cancelDiagram = false;
+            },
+            async dropoff(params) {
+                try {
+                    if(!this.offline) {
+                        var temp = await axios.put(axios.fixUrl(this.value._links['return'].href), params)
+                        for(var k in temp.data) {
+                            this.value[k]=temp.data[k];
+                        }
+                    }
+
+                    this.editMode = false;
+                    this.closeDropoff();
+                } catch(e) {
+                    this.snackbar.status = true
+                    if(e.response && e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
+                }
+            },
+            openDropoff() {
+                this.dropoffDiagram = true;
+            },
+            closeDropoff() {
+                this.dropoffDiagram = false;
             },
         },
     }

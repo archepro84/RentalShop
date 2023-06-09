@@ -1,15 +1,17 @@
 package rentalshop.domain;
 
-import java.util.*;
-import lombok.*;
-import rentalshop.domain.*;
-import rentalshop.infra.AbstractEvent;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.*;
+import lombok.Data;
 
 @Data
-@ToString
-public class CarRented extends AbstractEvent {
+public class RentalCommand {
 
+    @Id
+    //@GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
+
     private Long customerId;
     private Long rentalShopId;
     private Long stockId;

@@ -6,6 +6,11 @@
         </v-card-title>
 
         <v-card-text>
+            <Number label="Id" v-model="value.id" :editMode="editMode"/>
+            <Number label="RentalShopId" v-model="value.rentalShopId" :editMode="editMode"/>
+            <String label="CarName" v-model="value.carName" :editMode="editMode"/>
+            <String label="CarType" v-model="value.carType" :editMode="editMode"/>
+            <Number label="Qty" v-model="value.qty" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
@@ -41,6 +46,11 @@
             value: {},
         }),
         created() {
+            this.value.id = 0;
+            this.value.rentalShopId = 0;
+            this.value.carName = '';
+            this.value.carType = '';
+            this.value.qty = 0;
         },
         watch: {
         },

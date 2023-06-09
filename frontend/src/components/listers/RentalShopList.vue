@@ -103,7 +103,7 @@
             this.newValue = {
                 'ownerId': 0,
                 'shopName': '',
-                'address': {},
+                'address': '',
             }
         },
         methods: {

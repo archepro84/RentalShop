@@ -1,7 +1,8 @@
 package rentalshop.domain;
 
-import lombok.Data;
-import lombok.ToString;
+import java.util.*;
+import lombok.*;
+import rentalshop.domain.*;
 import rentalshop.infra.AbstractEvent;
 
 @Data
@@ -14,5 +15,4 @@ public class RentalAccepted extends AbstractEvent {
     private Long stockId;
     private String rentalStatus;
     private Integer qty;
-
 }

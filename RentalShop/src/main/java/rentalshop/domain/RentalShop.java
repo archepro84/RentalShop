@@ -7,8 +7,8 @@ import lombok.Data;
 import rentalshop.RentalShopApplication;
 import rentalshop.domain.RentalAccepted;
 import rentalshop.domain.RentalCanceled;
+import rentalshop.domain.RentalDropOff;
 import rentalshop.domain.RentalRejected;
-import rentalshop.domain.RentalReturned;
 
 @Entity
 @Table(name = "RentalShop_table")
@@ -23,7 +23,6 @@ public class RentalShop {
 
     private String shopName;
 
-    @Embedded
     private String address;
 
     @PostPersist
@@ -37,8 +36,8 @@ public class RentalShop {
         RentalCanceled rentalCanceled = new RentalCanceled(this);
         rentalCanceled.publishAfterCommit();
 
-        RentalReturned rentalReturned = new RentalReturned(this);
-        rentalReturned.publishAfterCommit();
+        RentalDropOff rentalDropOff = new RentalDropOff(this);
+        rentalDropOff.publishAfterCommit();
     }
 
     public static RentalShopRepository repository() {
@@ -46,6 +45,16 @@ public class RentalShop {
             RentalShopRepository.class
         );
         return rentalShopRepository;
+    }
+
+    public void accept(AcceptCommand acceptCommand) {
+        //implement business logic here:
+
+    }
+
+    public void reject(RejectCommand rejectCommand) {
+        //implement business logic here:
+
     }
 
     public static void createRental(CarRented carRented) {
@@ -92,7 +101,7 @@ public class RentalShop {
 
     }
 
-    public static void returnRental(CarReturned carReturned) {
+    public static void dropOffRental(CarDropOff carDropOff) {
         //implement business logic here:
 
         /** Example 1:  new item 
@@ -103,7 +112,7 @@ public class RentalShop {
 
         /** Example 2:  finding and process
         
-        repository().findById(carReturned.get???()).ifPresent(rentalShop->{
+        repository().findById(carDropOff.get???()).ifPresent(rentalShop->{
             
             rentalShop // do something
             repository().save(rentalShop);

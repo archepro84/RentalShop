@@ -12,6 +12,10 @@ public class StockHateoasProcessor
 
     @Override
     public EntityModel<Stock> process(EntityModel<Stock> model) {
+        model.add(
+            Link.of(model.getRequiredLink("self").getHref() + "/").withRel("")
+        );
+
         return model;
     }
 }

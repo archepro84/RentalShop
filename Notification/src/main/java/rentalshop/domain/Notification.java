@@ -28,6 +28,50 @@ public class Notification {
         return notificationRepository;
     }
 
+    public static void sendNotification(RentalCanceled rentalCanceled) {
+        //implement business logic here:
+
+        /** Example 1:  new item 
+        Notification notification = new Notification();
+        repository().save(notification);
+
+        */
+
+        /** Example 2:  finding and process
+        
+        repository().findById(rentalCanceled.get???()).ifPresent(notification->{
+            
+            notification // do something
+            repository().save(notification);
+
+
+         });
+        */
+
+    }
+
+    public static void sendNotification(RentalDropOff rentalDropOff) {
+        //implement business logic here:
+
+        /** Example 1:  new item 
+        Notification notification = new Notification();
+        repository().save(notification);
+
+        */
+
+        /** Example 2:  finding and process
+        
+        repository().findById(rentalDropOff.get???()).ifPresent(notification->{
+            
+            notification // do something
+            repository().save(notification);
+
+
+         });
+        */
+
+    }
+
     public static void sendNotification(RentalAccepted rentalAccepted) {
         //implement business logic here:
 
@@ -62,50 +106,6 @@ public class Notification {
         /** Example 2:  finding and process
         
         repository().findById(rentalRejected.get???()).ifPresent(notification->{
-            
-            notification // do something
-            repository().save(notification);
-
-
-         });
-        */
-
-    }
-
-    public static void sendNotification(RentalCanceled rentalCanceled) {
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        Notification notification = new Notification();
-        repository().save(notification);
-
-        */
-
-        /** Example 2:  finding and process
-        
-        repository().findById(rentalCanceled.get???()).ifPresent(notification->{
-            
-            notification // do something
-            repository().save(notification);
-
-
-         });
-        */
-
-    }
-
-    public static void sendNotification(RentalReturned rentalReturned) {
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        Notification notification = new Notification();
-        repository().save(notification);
-
-        */
-
-        /** Example 2:  finding and process
-        
-        repository().findById(rentalReturned.get???()).ifPresent(notification->{
             
             notification // do something
             repository().save(notification);

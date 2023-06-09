@@ -19,7 +19,7 @@
         <v-card-text>
             <Number label="OwnerId" v-model="value.ownerId" :editMode="editMode"/>
             <String label="ShopName" v-model="value.shopName" :editMode="editMode"/>
-            <Address offline label="Address" v-model="value.address" :editMode="editMode" @change="change"/>
+            <String label="Address" v-model="value.address" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
@@ -38,8 +38,7 @@
                     @click="save"
                     v-else
             >
-                Accept
-                Reject
+                Save
             </v-btn>
             <v-btn
                     color="deep-purple lighten-2"
@@ -60,6 +59,34 @@
         </v-card-actions>
         <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn
+                    v-if="!editMode"
+                    color="deep-purple lighten-2"
+                    text
+                    @click="openAccept"
+            >
+                Accept
+            </v-btn>
+            <v-dialog v-model="acceptDiagram" width="500">
+                <AcceptCommand
+                        @closeDialog="closeAccept"
+                        @accept="accept"
+                ></AcceptCommand>
+            </v-dialog>
+            <v-btn
+                    v-if="!editMode"
+                    color="deep-purple lighten-2"
+                    text
+                    @click="openReject"
+            >
+                Reject
+            </v-btn>
+            <v-dialog v-model="rejectDiagram" width="500">
+                <RejectCommand
+                        @closeDialog="closeReject"
+                        @reject="reject"
+                ></RejectCommand>
+            </v-dialog>
         </v-card-actions>
 
         <v-snackbar
@@ -80,12 +107,10 @@
 <script>
     const axios = require('axios').default;
 
-    import Address from './vo/Address.vue';
 
     export default {
         name: 'RentalShop',
         components:{
-            Address,
         },
         props: {
             value: [Object, String, Number, Boolean, Array],
@@ -99,6 +124,8 @@
                 timeout: 5000,
                 text: ''
             },
+            acceptDiagram: false,
+            rejectDiagram: false,
         }),
         computed:{
         },
@@ -192,6 +219,58 @@
             },
             change(){
                 this.$emit('input', this.value);
+            },
+            async accept(params) {
+                try {
+                    if(!this.offline) {
+                        var temp = await axios.put(axios.fixUrl(this.value._links['accept'].href), params)
+                        for(var k in temp.data) {
+                            this.value[k]=temp.data[k];
+                        }
+                    }
+
+                    this.editMode = false;
+                    this.closeAccept();
+                } catch(e) {
+                    this.snackbar.status = true
+                    if(e.response && e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
+                }
+            },
+            openAccept() {
+                this.acceptDiagram = true;
+            },
+            closeAccept() {
+                this.acceptDiagram = false;
+            },
+            async reject(params) {
+                try {
+                    if(!this.offline) {
+                        var temp = await axios.put(axios.fixUrl(this.value._links['reject'].href), params)
+                        for(var k in temp.data) {
+                            this.value[k]=temp.data[k];
+                        }
+                    }
+
+                    this.editMode = false;
+                    this.closeReject();
+                } catch(e) {
+                    this.snackbar.status = true
+                    if(e.response && e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
+                }
+            },
+            openReject() {
+                this.rejectDiagram = true;
+            },
+            closeReject() {
+                this.rejectDiagram = false;
             },
         },
     }

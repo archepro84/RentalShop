@@ -17,4 +17,21 @@ public class StockController {
 
     @Autowired
     StockRepository stockRepository;
+
+    @RequestMapping(
+        value = "stocks/",
+        method = RequestMethod.POST,
+        produces = "application/json;charset=UTF-8"
+    )
+    public Stock setstock(
+        @RequestBody SetstockCommand setstockcommand,
+        HttpServletRequest request,
+        HttpServletResponse response,
+        @RequestBody Stock stock
+    ) throws Exception {
+        System.out.println("##### /stock/setstock  called #####");
+        stock.setstock(setstockcommand);
+        stockRepository.save(stock);
+        return stock;
+    }
 }

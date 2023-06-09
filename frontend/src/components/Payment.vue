@@ -37,7 +37,7 @@
                     @click="save"
                     v-else
             >
-                Payment
+                Save
             </v-btn>
             <v-btn
                     color="deep-purple lighten-2"
@@ -58,6 +58,20 @@
         </v-card-actions>
         <v-card-actions>
             <v-spacer></v-spacer>
+            <v-btn
+                    v-if="!editMode"
+                    color="deep-purple lighten-2"
+                    text
+                    @click="openPayment"
+            >
+                Payment
+            </v-btn>
+            <v-dialog v-model="paymentDiagram" width="500">
+                <PaymentCommand
+                        @closeDialog="closePayment"
+                        @payment="payment"
+                ></PaymentCommand>
+            </v-dialog>
         </v-card-actions>
 
         <v-snackbar
@@ -95,6 +109,7 @@
                 timeout: 5000,
                 text: ''
             },
+            paymentDiagram: false,
         }),
         computed:{
         },
@@ -188,6 +203,32 @@
             },
             change(){
                 this.$emit('input', this.value);
+            },
+            async payment(params) {
+                try {
+                    if(!this.offline) {
+                        var temp = await axios.put(axios.fixUrl(this.value._links['payment'].href), params)
+                        for(var k in temp.data) {
+                            this.value[k]=temp.data[k];
+                        }
+                    }
+
+                    this.editMode = false;
+                    this.closePayment();
+                } catch(e) {
+                    this.snackbar.status = true
+                    if(e.response && e.response.data.message) {
+                        this.snackbar.text = e.response.data.message
+                    } else {
+                        this.snackbar.text = e
+                    }
+                }
+            },
+            openPayment() {
+                this.paymentDiagram = true;
+            },
+            closePayment() {
+                this.paymentDiagram = false;
             },
         },
     }

@@ -12,6 +12,17 @@ public class RentalShopHateoasProcessor
 
     @Override
     public EntityModel<RentalShop> process(EntityModel<RentalShop> model) {
+        model.add(
+            Link
+                .of(model.getRequiredLink("self").getHref() + "/accept")
+                .withRel("accept")
+        );
+        model.add(
+            Link
+                .of(model.getRequiredLink("self").getHref() + "/reject")
+                .withRel("reject")
+        );
+
         return model;
     }
 }

@@ -6,8 +6,8 @@ import javax.persistence.*;
 import lombok.Data;
 import rentalshop.RentalApplication;
 import rentalshop.domain.CarCanceled;
+import rentalshop.domain.CarDropOff;
 import rentalshop.domain.CarRented;
-import rentalshop.domain.CarReturned;
 
 @Entity
 @Table(name = "Rental_table")
@@ -37,17 +37,17 @@ public class Rental {
         //Following code causes dependency to external APIs
         // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
 
-        rentalshop.external.Payment payment = new rentalshop.external.Payment();
+        rentalshop.external.PaymentCommand paymentCommand = new rentalshop.external.PaymentCommand();
         // mappings goes here
         RentalApplication.applicationContext
             .getBean(rentalshop.external.PaymentService.class)
-            .payment(payment);
+            .payment(this.id, paymentCommand);
 
         CarRented carRented = new CarRented(this);
         carRented.publishAfterCommit();
 
-        CarReturned carReturned = new CarReturned(this);
-        carReturned.publishAfterCommit();
+        CarDropOff carDropOff = new CarDropOff(this);
+        carDropOff.publishAfterCommit();
 
         CarCanceled carCanceled = new CarCanceled(this);
         carCanceled.publishAfterCommit();
@@ -58,6 +58,21 @@ public class Rental {
             RentalRepository.class
         );
         return rentalRepository;
+    }
+
+    public void rental(RentalCommand rentalCommand) {
+        //implement business logic here:
+
+    }
+
+    public void cancel(CancelCommand cancelCommand) {
+        //implement business logic here:
+
+    }
+
+    public void dropoff(DropoffCommand dropoffCommand) {
+        //implement business logic here:
+
     }
 
     public static void updateRentalStatus(PaymentReceived paymentReceived) {

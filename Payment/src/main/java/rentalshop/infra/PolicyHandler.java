@@ -21,4 +21,20 @@ public class PolicyHandler {
 
     @StreamListener(KafkaProcessor.INPUT)
     public void whatever(@Payload String eventString) {}
+
+    @StreamListener(
+        value = KafkaProcessor.INPUT,
+        condition = "headers['type']=='CarCanceled'"
+    )
+    public void wheneverCarCanceled_PaymentCancel(
+        @Payload CarCanceled carCanceled
+    ) {
+        CarCanceled event = carCanceled;
+        System.out.println(
+            "\n\n##### listener PaymentCancel : " + carCanceled + "\n\n"
+        );
+
+        // Sample Logic //
+        Payment.paymentCancel(event);
+    }
 }

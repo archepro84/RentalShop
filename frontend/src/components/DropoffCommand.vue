@@ -2,10 +2,11 @@
 
     <v-card outlined>
         <v-card-title>
-            Return
+            Dropoff
         </v-card-title>
 
         <v-card-text>
+            <Number label="Id" v-model="value.id" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
@@ -13,9 +14,9 @@
             <v-btn
                     color="deep-purple lighten-2"
                     text
-                    @click="return"
+                    @click="dropoff"
             >
-                Return
+                Dropoff
             </v-btn>
             
             <v-btn
@@ -33,7 +34,7 @@
 <script>
    
     export default {
-        name: 'ReturnCommand',
+        name: 'DropoffCommand',
         components:{},
         props: {},
         data: () => ({
@@ -41,12 +42,13 @@
             value: {},
         }),
         created() {
+            this.value.id = 0;
         },
         watch: {
         },
         methods: {
-            return() {
-                this.$emit('return', this.value);
+            dropoff() {
+                this.$emit('dropoff', this.value);
             },
             close() {
                 this.$emit('closeDialog');

@@ -33,6 +33,11 @@ public class Payment {
         return paymentRepository;
     }
 
+    public void payment(PaymentCommand paymentCommand) {
+        //implement business logic here:
+
+    }
+
     public static void paymentCancel(CarCanceled carCanceled) {
         //implement business logic here:
 

@@ -24,14 +24,14 @@ public class PolicyHandler {
 
     @StreamListener(
         value = KafkaProcessor.INPUT,
-        condition = "headers['type']=='RentalReturned'"
+        condition = "headers['type']=='RentalDropOff'"
     )
-    public void wheneverRentalReturned_IncreaseStock(
-        @Payload RentalReturned rentalReturned
+    public void wheneverRentalDropOff_IncreaseStock(
+        @Payload RentalDropOff rentalDropOff
     ) {
-        RentalReturned event = rentalReturned;
+        RentalDropOff event = rentalDropOff;
         System.out.println(
-            "\n\n##### listener IncreaseStock : " + rentalReturned + "\n\n"
+            "\n\n##### listener IncreaseStock : " + rentalDropOff + "\n\n"
         );
 
         // Sample Logic //

@@ -24,6 +24,20 @@ public class PolicyHandler {
 
     @StreamListener(
         value = KafkaProcessor.INPUT,
+        condition = "headers['type']=='CarRented'"
+    )
+    public void wheneverCarRented_CreateRental(@Payload CarRented carRented) {
+        CarRented event = carRented;
+        System.out.println(
+            "\n\n##### listener CreateRental : " + carRented + "\n\n"
+        );
+
+        // Sample Logic //
+        RentalShop.createRental(event);
+    }
+
+    @StreamListener(
+        value = KafkaProcessor.INPUT,
         condition = "headers['type']=='CarCanceled'"
     )
     public void wheneverCarCanceled_CancelRental(
@@ -40,17 +54,17 @@ public class PolicyHandler {
 
     @StreamListener(
         value = KafkaProcessor.INPUT,
-        condition = "headers['type']=='CarReturned'"
+        condition = "headers['type']=='CarDropOff'"
     )
-    public void wheneverCarReturned_ReturnRental(
-        @Payload CarReturned carReturned
+    public void wheneverCarDropOff_DropOffRental(
+        @Payload CarDropOff carDropOff
     ) {
-        CarReturned event = carReturned;
+        CarDropOff event = carDropOff;
         System.out.println(
-            "\n\n##### listener ReturnRental : " + carReturned + "\n\n"
+            "\n\n##### listener DropOffRental : " + carDropOff + "\n\n"
         );
 
         // Sample Logic //
-        RentalShop.returnRental(event);
+        RentalShop.dropOffRental(event);
     }
 }

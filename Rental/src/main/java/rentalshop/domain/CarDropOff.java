@@ -7,11 +7,19 @@ import rentalshop.infra.AbstractEvent;
 
 @Data
 @ToString
-public class CarReturned extends AbstractEvent {
+public class CarDropOff extends AbstractEvent {
 
     private Long id;
     private Long customerId;
     private Long rentalShopId;
     private Long stockId;
     private String rentalStatus;
+
+    public CarDropOff(Rental aggregate) {
+        super(aggregate);
+    }
+
+    public CarDropOff() {
+        super();
+    }
 }

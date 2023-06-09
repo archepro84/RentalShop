@@ -6,6 +6,9 @@
         </v-card-title>
 
         <v-card-text>
+            <Number label="Id" v-model="value.id" :editMode="editMode"/>
+            <Number label="RentalId" v-model="value.rentalId" :editMode="editMode"/>
+            <Number label="Price" v-model="value.price" :editMode="editMode"/>
         </v-card-text>
 
         <v-card-actions>
@@ -41,6 +44,9 @@
             value: {},
         }),
         created() {
+            this.value.id = 0;
+            this.value.rentalId = 0;
+            this.value.price = 0;
         },
         watch: {
         },

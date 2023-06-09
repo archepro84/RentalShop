@@ -37,7 +37,12 @@ public class Stock {
         return stockRepository;
     }
 
-    public static void increaseStock(RentalReturned rentalReturned) {
+    public void setstock(SetstockCommand setstockCommand) {
+        //implement business logic here:
+
+    }
+
+    public static void increaseStock(RentalDropOff rentalDropOff) {
         //implement business logic here:
 
         /** Example 1:  new item 
@@ -48,7 +53,7 @@ public class Stock {
 
         /** Example 2:  finding and process
         
-        repository().findById(rentalReturned.get???()).ifPresent(stock->{
+        repository().findById(rentalDropOff.get???()).ifPresent(stock->{
             
             stock // do something
             repository().save(stock);
