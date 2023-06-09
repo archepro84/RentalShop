@@ -1,0 +1,90 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: Rental
+          uri: http://localhost:8082
+          predicates:
+            - Path=/rentals/**, 
+        - id: Payment
+          uri: http://localhost:8083
+          predicates:
+            - Path=/payments/**, 
+        - id: RentalShop
+          uri: http://localhost:8085
+          predicates:
+            - Path=/rentalShops/**, 
+        - id: Notification
+          uri: http://localhost:8088
+          predicates:
+            - Path=/notifications/**, 
+        - id: Stock
+          uri: http://localhost:8092
+          predicates:
+            - Path=/stocks/**, 
+        - id: frontend
+          uri: http://localhost:8080
+          predicates:
+            - Path=/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: Rental
+          uri: http://rental:8080
+          predicates:
+            - Path=/rentals/**, 
+        - id: Payment
+          uri: http://payment:8080
+          predicates:
+            - Path=/payments/**, 
+        - id: RentalShop
+          uri: http://rentalShop:8080
+          predicates:
+            - Path=/rentalShops/**, 
+        - id: Notification
+          uri: http://notification:8080
+          predicates:
+            - Path=/notifications/**, 
+        - id: Stock
+          uri: http://stock:8080
+          predicates:
+            - Path=/stocks/**, 
+        - id: frontend
+          uri: http://frontend:8080
+          predicates:
+            - Path=/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
