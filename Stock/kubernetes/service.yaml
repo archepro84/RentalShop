@@ -1,12 +1,15 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: Stock
+  name: stock
   labels:
-    app: Stock
+    app: stock
 spec:
   ports:
-    - port: 8080
-      targetPort: 8080
+    - protocol: TCP
+      port: 8092 # Host Port
+      targetPort: 8080 # Container Port
+  type: LoadBalancer # 해당 Service의 Public IP 및 Port 할당
   selector:
-    app: Stock
+    app: stock
