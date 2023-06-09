@@ -1,97 +1,10 @@
-# 
+# RentalShop
 
 ## Model
-www.msaez.io/#/storming/carrental
 
-## Before Running Services
-### Make sure there is a Kafka server running
-```
-cd kafka
-docker-compose up
-```
-- Check the Kafka messages:
-```
-cd kafka
-docker-compose exec -it kafka /bin/bash
-cd /bin
-./kafka-console-consumer --bootstrap-server localhost:9092 --topic
-```
+![스크린샷 2023-06-09 오후 8 00 56](https://github.com/acmexii/sjcu-microservice-labs/assets/49636918/a5e936cf-9f0f-4dd4-a1e0-a1977d719b63)
 
-## Run the backend micro-services
-See the README.md files inside the each microservices directory:
+## 서론
 
-- Rental
-- Payment
-- RentalShop
-- Notification
-- Stock
-
-
-## Run API Gateway (Spring Gateway)
-```
-cd gateway
-mvn spring-boot:run
-```
-
-## Test by API
-- Rental
-```
- http :8088/rentals id="id" customerId="customerId" rentalShopId="rentalShopId" stockId="stockId" rentalStatus="rentalStatus" qty="qty" startedAt="startedAt" endedAt="endedAt" 
-```
-- Payment
-```
- http :8088/payments id="id" rentalId="rentalId" price="price" 
-```
-- RentalShop
-```
- http :8088/rentalShops id="id" ownerId="ownerId" shopName="shopName" address="address" 
-```
-- Notification
-```
- http :8088/notifications id="id" customerId="customerId" notificationType="notificationType" message="message" 
-```
-- Stock
-```
- http :8088/stocks id="id" rentalShopId="rentalShopId" carName="carName" carType="carType" qty="qty" 
-```
-
-
-## Run the frontend
-```
-cd frontend
-npm i
-npm run serve
-```
-
-## Test by UI
-Open a browser to localhost:8088
-
-## Required Utilities
-
-- httpie (alternative for curl / POSTMAN) and network utils
-```
-sudo apt-get update
-sudo apt-get install net-tools
-sudo apt install iputils-ping
-pip install httpie
-```
-
-- kubernetes utilities (kubectl)
-```
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-```
-
-- aws cli (aws)
-```
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-sudo ./aws/install
-```
-
-- eksctl 
-```
-curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-sudo mv /tmp/eksctl /usr/local/bin
-```
-
+이 프로젝트는 DDD를 기반으로 MSA를 구성한 프로젝트입니다. Spring Boot를 이용하여 Back-end의 Template를 구성하였으며, AWS EKS를 이용해 각 마이크로 서비스들의 Service,
+Deployment를 생성하여 서비스를 배포할 수 있도록 구성하였습니다.
