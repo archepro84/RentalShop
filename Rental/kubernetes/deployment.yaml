@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rental
+  labels:
+    app: rental
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: rental
+  template:
+    metadata:
+      labels:
+        app: rental
+    spec:
+      containers:
+        - name: rental
+          image: archepro84/rental:v0.1
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
