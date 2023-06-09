@@ -24,7 +24,7 @@ public class RentalShop {
     private String shopName;
 
     @Embedded
-    private Address address;
+    private String address;
 
     @PostPersist
     public void onPostPersist() {
